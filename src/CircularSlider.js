@@ -1,3 +1,6 @@
+/*
+扩大容器，扩大触摸范围，将滑动圆形变为白底实心 sheemiee
+*/
 import React, { PureComponent, PropTypes } from 'react';
 import { PanResponder, View } from 'react-native';
 import Svg, { Circle, G, LinearGradient, Path, Defs, Stop } from 'react-native-svg';
@@ -82,7 +85,7 @@ export default class CircularSlider extends PureComponent {
     this._sleepPanResponder = PanResponder.create({
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onPanResponderGrant: (evt, gestureState) => this.setCircleCenter(),
+
       onPanResponderMove: (evt, { moveX, moveY }) => {
         const { circleCenterX, circleCenterY } = this.state;
         const { angleLength, startAngle, onUpdate } = this.props;
@@ -107,7 +110,7 @@ export default class CircularSlider extends PureComponent {
     this._wakePanResponder = PanResponder.create({
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onPanResponderGrant: (evt, gestureState) => this.setCircleCenter(),
+
       onPanResponderMove: (evt, { moveX, moveY }) => {
         const { circleCenterX, circleCenterY } = this.state;
         const { angleLength, startAngle, onUpdate } = this.props;
@@ -129,7 +132,7 @@ export default class CircularSlider extends PureComponent {
   }
 
   setCircleCenter = () => {
-    this._circle.measure((x, y, w, h, px, py) => {
+    this._circle.measure((x, y, w, h, px , py) => {
       const halfOfContainer = this.getContainerWidth() / 2;
       this.setState({ circleCenterX: px + halfOfContainer, circleCenterY: py + halfOfContainer });
     });
@@ -150,10 +153,10 @@ export default class CircularSlider extends PureComponent {
     const stop = calculateArcCircle(segments - 1, segments, radius, startAngle, angleLength);
 
     return (
-      <View style={{ width: containerWidth, height: containerWidth }} onLayout={this.onLayout}>
+      <View style={{ width: containerWidth+40, height: containerWidth+40, justifyContent:'center',alignItems:'center' }} onLayout={this.onLayout}>
         <Svg
-          height={containerWidth}
-          width={containerWidth}
+          height={containerWidth+40}
+          width={containerWidth+40}
           ref={circle => this._circle = circle}
         >
           <Defs>
@@ -175,7 +178,7 @@ export default class CircularSlider extends PureComponent {
             ##### Circle
           */}
 
-          <G transform={{ translate: `${strokeWidth/2 + radius + 1}, ${strokeWidth/2 + radius + 1}` }}>
+          <G transform={{ translate: `${strokeWidth/2 + radius + 1+20}, ${strokeWidth/2 + radius + 1+20}` }}>
             <Circle
               r={radius}
               strokeWidth={strokeWidth}
@@ -219,8 +222,14 @@ export default class CircularSlider extends PureComponent {
             >
               <Circle
                 r={(strokeWidth - 1) / 2}
-                fill={bgCircleColor}
-                stroke={gradientColorTo}
+                fill={"#fff"}
+                stroke={"#fff"}
+                strokeWidth="1"
+              />
+              <Circle
+                r={(strokeWidth - 1)*1.2}
+                fill={"transparent"}
+                stroke={"transparent"}
                 strokeWidth="1"
               />
               {
@@ -240,8 +249,14 @@ export default class CircularSlider extends PureComponent {
             >
               <Circle
                 r={(strokeWidth - 1) / 2}
-                fill={bgCircleColor}
-                stroke={gradientColorFrom}
+                fill={"#fff"}
+                stroke={"#fff"}
+                strokeWidth="1"
+              />
+              <Circle
+                r={(strokeWidth - 1)*1.2}
+                fill={"transparent"}
+                stroke={"transparent"}
                 strokeWidth="1"
               />
               {
